@@ -8238,20 +8238,28 @@ BAYESIANO -----------------------------------------------------------------
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Para empezar veamos qué géneros hay en nuestro dataset:</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [76]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">ngram_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
-	<span class="n">preprocessor</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"|"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
-	<span class="n">stop_words</span><span class="o">=</span><span class="p">[</span><span class="s2">"nogenreslisted"</span><span class="p">,</span> <span class="s2">"imax"</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">df_movies</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">genre</span><span class="o">=</span><span class="n">df_movies</span><span class="p">[</span><span class="s2">"genres"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'|'</span><span class="p">))</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s2">"genre"</span><span class="p">)</span>
 
-<span class="n">genre_vectorization</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df_movies</span><span class="p">[</span><span class="s2">"genres"</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">[</span><span class="s2">"genre"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -8264,10 +8272,9 @@ BAYESIANO -----------------------------------------------------------------
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>['action' 'adventure' 'animation' 'children' 'comedy' 'crime'
- 'documentary' 'drama' 'fantasy' 'fi' 'film' 'genres' 'horror' 'listed'
- 'musical' 'mystery' 'no' 'noir' 'romance' 'sci' 'thriller' 'war'
- 'western']
+<pre>['Adventure' 'Animation' 'Children' 'Comedy' 'Fantasy' 'Romance' 'Drama'
+ 'Action' 'Crime' 'Thriller' 'Horror' 'Mystery' 'SciFi' 'War' 'Musical'
+ 'Documentary' 'IMAX' 'Western' 'FilmNoir' '(nogenreslisted)']
 </pre>
 </div>
 </div>
@@ -8280,7 +8287,7 @@ BAYESIANO -----------------------------------------------------------------
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Vemos que habrá que eliminar espacios y guiones para no subdividir algunos géneros como 'Sci-Fi'. También eliminaremos los elementos 'imax' y 'nogenrelisted' por no aportar información sobre el género (el primero es un formato, <em>Image MAXimum</em>, y el segundo señala que no se ha asociado ningún género con tal película):</p>
+<p>Vemos a eliminar espacios y guiones para no subdividir algunos géneros como 'Sci-Fi'. También eliminaremos los elementos <em>IMAX</em> y <em>(nogenrelisted)</em> por no aportar información sobre el género (el primero es un formato, <em>Image MAXimum</em>, y el segundo señala que no se ha asociado ningún género con tal película):</p>
 </div>
 </div>
 </div>
@@ -8289,7 +8296,7 @@ BAYESIANO -----------------------------------------------------------------
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [74]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_movies</span><span class="p">[</span><span class="s2">"genres"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_movies</span><span class="p">[</span><span class="s2">"genres"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
@@ -8919,7 +8926,7 @@ Recomendaciones generadas:
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><h4 id="Toy-Story">Toy Story<a class="anchor-link" href="#Toy-Story">¶</a></h4></li>
+<li><h4 id="Toy-Story"><strong>Toy Story</strong><a class="anchor-link" href="#Toy-Story">¶</a></h4></li>
 </ul>
 </div>
 </div>
@@ -8976,7 +8983,7 @@ Similitud: 45.6%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><h4 id="Cadena-perpetua">Cadena perpetua<a class="anchor-link" href="#Cadena-perpetua">¶</a></h4></li>
+<li><h4 id="Cadena-perpetua"><strong>Cadena perpetua</strong><a class="anchor-link" href="#Cadena-perpetua">¶</a></h4></li>
 </ul>
 </div>
 </div>
@@ -9033,7 +9040,7 @@ Similitud: 47.5%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><h4 id="Pulp-fiction">Pulp fiction<a class="anchor-link" href="#Pulp-fiction">¶</a></h4></li>
+<li><h4 id="Pulp-fiction"><strong>Pulp fiction</strong><a class="anchor-link" href="#Pulp-fiction">¶</a></h4></li>
 </ul>
 </div>
 </div>
@@ -9090,7 +9097,7 @@ Similitud: 45.2%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li><h4 id="El-padrino">El padrino<a class="anchor-link" href="#El-padrino">¶</a></h4></li>
+<li><h4 id="El-padrino"><strong>El padrino</strong><a class="anchor-link" href="#El-padrino">¶</a></h4></li>
 </ul>
 </div>
 </div>
@@ -9146,7 +9153,7 @@ Similitud: 47.4%
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="9.--Exportaci%C3%B3n-de-datos-para-Tableau"><strong>9.- Exportación de datos para Tableau</strong><a class="anchor-link" href="#9.--Exportaci%C3%B3n-de-datos-para-Tableau">¶</a></h2><p>En esta sección guardamos ciertos resúmenes en formato CSV con el fin de construir dashboards interactivos en Tableau Public.</p>
+<h2 id="9.--Exportar-datos-para-Tableau"><strong>9.- Exportar datos para Tableau</strong><a class="anchor-link" href="#9.--Exportar-datos-para-Tableau">¶</a></h2><p>En esta sección guardamos ciertos resúmenes en formato CSV con el fin de construir dashboards interactivos en Tableau Public.</p>
 </div>
 </div>
 </div>
@@ -9158,7 +9165,7 @@ Similitud: 47.4%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>Distribución de ratings:</li>
+<li><strong>Distribución de ratings:</strong></li>
 </ul>
 </div>
 </div>
@@ -9186,7 +9193,7 @@ Similitud: 47.4%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>Número de votos por película:</li>
+<li><strong>Número de votos por película:</strong></li>
 </ul>
 </div>
 </div>
@@ -9216,7 +9223,7 @@ Similitud: 47.4%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>Media de rating por género:</li>
+<li><strong>Media de rating por género:</strong></li>
 </ul>
 </div>
 </div>
@@ -9226,11 +9233,15 @@ Similitud: 47.4%
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [72]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># separar géneros en filas individuales</span>
 <span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">df_movies</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">genre</span><span class="o">=</span><span class="n">df_movies</span><span class="p">[</span><span class="s1">'genres'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'|'</span><span class="p">))</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">'genre'</span><span class="p">)</span>
+
+<span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">genres_expanded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">[</span><span class="n">genres_expanded</span><span class="p">[</span><span class="s2">"genre"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"IMAX"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">genres_expanded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">[</span><span class="n">genres_expanded</span><span class="p">[</span><span class="s2">"genre"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"(nogenreslisted)"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
 <span class="n">avg_rating_genre</span> <span class="o">=</span> <span class="n">df_ratings</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'movieId'</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'genre'</span><span class="p">)[</span><span class="s1">'rating'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">avg_rating_genre</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"exports/avg_rating_per_genre.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -9247,7 +9258,7 @@ Similitud: 47.4%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>Matriz de similitud:</li>
+<li><strong>Matriz de similitud:</strong></li>
 </ul>
 </div>
 </div>
@@ -9285,7 +9296,7 @@ Similitud: 47.4%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>Usuarios activos:</li>
+<li><strong>Usuarios activos:</strong></li>
 </ul>
 </div>
 </div>
@@ -9314,7 +9325,7 @@ Similitud: 47.4%
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <ul>
-<li>Resultados de evaluación:</li>
+<li><strong>Resultados de evaluación:</strong></li>
 </ul>
 </div>
 </div>
@@ -9324,12 +9335,12 @@ Similitud: 47.4%
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [78]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"model"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Collaborative Filtering"</span><span class="p">,</span> <span class="s2">"Content-Based"</span><span class="p">,</span> <span class="s2">"Hybrid"</span><span class="p">],</span>
-    <span class="s2">"precision_at_10"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0436</span><span class="p">,</span> <span class="mf">0.0185</span><span class="p">,</span> <span class="mf">0.0807</span><span class="p">]</span>  <span class="c1"># tus valores reales</span>
+    <span class="s2">"model"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Collaborative Filtering"</span><span class="p">,</span> <span class="s2">"Collaborative Filtering (shrunk)"</span><span class="p">,</span> <span class="s2">"Content-Based"</span><span class="p">,</span> <span class="s2">"Hybrid"</span><span class="p">,</span> <span class="s2">"Hybrid (shrunk)"</span><span class="p">],</span>
+    <span class="s2">"precision_at_10"</span><span class="p">:</span> <span class="p">[</span><span class="n">prec_cf</span><span class="p">,</span> <span class="n">prec_cf_shrunk</span><span class="p">,</span> <span class="n">prec_cb</span><span class="p">,</span> <span class="n">prec_hybrid</span><span class="p">,</span> <span class="n">prec_hybrid_shrunk</span><span class="p">]</span>  <span class="c1"># tus valores reales</span>
 <span class="p">}</span>
 <span class="n">df_metrics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
 <span class="n">df_metrics</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"exports/model_performance.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
