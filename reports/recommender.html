@@ -8254,7 +8254,7 @@ BAYESIANO -----------------------------------------------------------------
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [76]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [79]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">df_movies</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">genre</span><span class="o">=</span><span class="n">df_movies</span><span class="p">[</span><span class="s2">"genres"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'|'</span><span class="p">))</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s2">"genre"</span><span class="p">)</span>
@@ -8287,7 +8287,7 @@ BAYESIANO -----------------------------------------------------------------
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Vemos a eliminar espacios y guiones para no subdividir algunos géneros como 'Sci-Fi'. También eliminaremos los elementos <em>IMAX</em> y <em>(nogenrelisted)</em> por no aportar información sobre el género (el primero es un formato, <em>Image MAXimum</em>, y el segundo señala que no se ha asociado ningún género con tal película):</p>
+<p>Vamos a eliminar espacios y guiones para no subdividir algunos géneros como 'Sci-Fi'. También eliminaremos los elementos <em>IMAX</em> y <em>(nogenrelisted)</em> por no aportar información sobre el género (el primero es un formato, <em>Image MAXimum</em>, y el segundo señala que no se ha asociado ningún género con tal película):</p>
 </div>
 </div>
 </div>
@@ -9236,10 +9236,7 @@ Similitud: 47.4%
 <div class="jp-InputPrompt jp-InputArea-prompt">In [72]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># separar géneros en filas individuales</span>
-<span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">df_movies</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">genre</span><span class="o">=</span><span class="n">df_movies</span><span class="p">[</span><span class="s1">'genres'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'|'</span><span class="p">))</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">'genre'</span><span class="p">)</span>
-
-<span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">genres_expanded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">[</span><span class="n">genres_expanded</span><span class="p">[</span><span class="s2">"genre"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"IMAX"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">genres_expanded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">[</span><span class="n">genres_expanded</span><span class="p">[</span><span class="s2">"genre"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"IMAX"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 <span class="n">genres_expanded</span> <span class="o">=</span> <span class="n">genres_expanded</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">[</span><span class="n">genres_expanded</span><span class="p">[</span><span class="s2">"genre"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"(nogenreslisted)"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 
 <span class="n">avg_rating_genre</span> <span class="o">=</span> <span class="n">df_ratings</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">genres_expanded</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'movieId'</span><span class="p">)</span> \
